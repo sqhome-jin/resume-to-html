@@ -41,3 +41,9 @@ npm run preview
 导出 HTML 的正文与样式可离线使用；Google Fonts 不可用时使用本机字体。头像保留源 JSON 的远程 URL，显示时需要网络及有效的图片地址。若需要完全离线的文件，可关闭头像。
 
 支持 resume.io 数据结构：firstName / lastName / name、position、email、phoneNumber、city、countryName、avatar、profile、workExperiences、educations、skills、languages、socialProfiles、customSections、sectionsOrder 等。自定义章节通过 externalId 与 sectionsOrder 的 custom:ID 对应。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE)，允许商用、修改、分发及闭源使用，须保留版权和许可声明；软件按现状提供，不附带担保。
+
+本许可不授予 SQHOME 名称及标识的商标使用权。第三方依赖及字体仍遵循各自的许可证；用户导入的个人简历内容不因使用本应用而适用 MIT 许可。
