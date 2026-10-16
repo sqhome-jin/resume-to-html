@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Libre+Baskerville:wght@400;700&display=swap');
+
+.resume-paper{--accent:#3d625b;box-sizing:border-box;width:860px;max-width:100%;background:#fff;color:#33383a;font-family:'DM Sans','Helvetica Neue',sans-serif;font-size:12px;line-height:1.65;letter-spacing:0;box-shadow:0 3px 9px #1f2c3310,0 20px 50px #1f2c3308;border-top:5px solid var(--accent);overflow-wrap:anywhere}
+.resume-paper *{box-sizing:border-box;letter-spacing:0}
+.resume-paper [hidden]{display:none!important}
+.resume-header{padding:45px 48px 31px;display:flex;justify-content:space-between;align-items:center;gap:28px;border-bottom:1px solid #e3e7e5}
+.resume-eyebrow{font-size:9px;font-weight:600;color:var(--accent);margin:0 0 13px}
+.resume-header h1{font-family:'Libre Baskerville',Georgia,serif;font-size:39px;font-weight:400;line-height:1.2;margin:0 0 12px;color:#242c2a}
+.resume-position{font-size:14px;line-height:1.5;color:var(--accent);font-weight:500;margin:0 0 17px}
+.resume-contact{display:flex;gap:5px 16px;flex-wrap:wrap;color:#737a78;font-size:10px}
+.resume-contact a{color:inherit;text-decoration:none}
+.resume-avatar{width:91px;height:109px;object-fit:cover;object-position:center 30%;flex-shrink:0;border-radius:2px;filter:saturate(.8)}
+.resume-body{padding:29px 48px 45px}
+.resume-section{margin-bottom:28px}
+.resume-section>h2{font-size:10px;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid #dfe6e3}
+.resume-columns{display:grid;grid-template-columns:minmax(0,1fr) 192px;gap:31px}
+.resume-main,.resume-aside{min-width:0}
+.resume-aside{border-left:1px solid #e6eae8;padding-left:23px}
+.resume-entry{margin-bottom:19px}
+.resume-entry:last-child,.resume-section:last-child{margin-bottom:0}
+.entry-heading{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.resume-entry h3{font-size:12px;font-weight:700;line-height:1.5;margin:0;color:#28332f}
+.entry-date{font-size:9px;font-weight:500;color:var(--accent);white-space:normal}
+.entry-subtitle{font-size:11px;font-weight:500;margin:4px 0 8px;color:#656f6a}
+.entry-level{text-transform:capitalize;font-size:10px;color:#727b76;margin-top:3px}
+.rich-text{font-size:11px;color:#515a56;line-height:1.75}
+[data-section="profile"] .rich-text{font-size:12px;line-height:1.85}
+.rich-text p{margin:7px 0}
+.rich-text p:first-child{margin-top:0}
+.rich-text p:last-child{margin-bottom:0}
+.rich-text ul,.rich-text ol{margin:8px 0;padding-left:16px}
+.rich-text li{padding-left:2px;margin:5px 0}
+.rich-text li::marker{color:var(--accent)}
+.rich-text strong,.rich-text b{font-weight:650;color:#35433b}
+.rich-text h1,.rich-text h2,.rich-text h3,.rich-text h4{font:inherit;margin:7px 0;color:inherit}
+.rich-text a,.resume-entry a{color:var(--accent);text-underline-offset:3px}
+.resume-aside .rich-text{font-size:10px;line-height:1.75}
+.resume-aside .resume-entry h3{font-size:11px}
+.resume-aside .resume-entry{margin-bottom:18px}
+.resume-aside .resume-section{margin-bottom:27px}
+.resume-paper[data-layout="classic"] .resume-columns{display:block}
+.resume-paper[data-layout="classic"] .resume-aside{border:0;padding:0;margin-top:28px}
+.resume-paper[data-layout="classic"] .entry-heading{flex-direction:row;justify-content:space-between;gap:16px}
+.resume-paper[data-layout="classic"] .resume-aside .rich-text{font-size:11px}
+@media(max-width:620px){
+  .resume-header{padding:27px 24px 24px;gap:16px;align-items:flex-start}
+  .resume-header h1{font-size:30px}
+  .resume-eyebrow{font-size:8px}
+  .resume-position{font-size:12px}
+  .resume-avatar{width:65px;height:82px}
+  .resume-contact{font-size:9px;gap:5px 12px}
+  .resume-body{padding:24px}
+  .resume-columns{display:flex;flex-direction:column;gap:28px}
+  .resume-aside{border-left:0;border-top:1px solid #e6eae8;padding:24px 0 0}
+  .resume-paper[data-layout="classic"] .entry-heading{flex-direction:column;gap:3px}
+}
+@page{size:A4;margin:14mm 12mm}
+@media print{
+  .resume-paper{width:100%;max-width:none;box-shadow:none;zoom:1!important;border-top-width:3px;font-size:11px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .resume-header{padding:20px 12px 23px;break-inside:avoid}
+  .resume-body{padding:23px 12px 0}
+  .resume-columns{display:block}
+  .resume-aside{border:0;padding:0;margin-top:26px}
+  .resume-section>h2,.entry-heading,.entry-subtitle{break-after:avoid}
+  .resume-entry h3{font-size:12px}
+  .rich-text,.resume-aside .rich-text{font-size:11px}
+  .rich-text p,.rich-text li{orphans:3;widows:3}
+  .resume-section{margin-bottom:22px}
+  a{text-decoration:none}
+}

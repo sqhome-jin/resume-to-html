@@ -1,0 +1,191 @@
+{
+  "type": "resume",
+  "name": "Alex Morgan",
+  "firstName": "Alex",
+  "lastName": "Morgan",
+  "position": "Senior Product Manager",
+  "email": "alex.morgan@example.com",
+  "phoneNumber": null,
+  "countryName": null,
+  "city": "Example City",
+  "address": null,
+  "postalCode": null,
+  "birthPlace": null,
+  "birthDate": null,
+  "nationality": null,
+  "avatar": {
+    "blank": true,
+    "largeUrl": null,
+    "mediumUrl": null,
+    "thumbUrl": null,
+    "originalUrl": null
+  },
+  "profile": "<p>Product manager with experience turning customer research into practical digital products. Skilled in roadmap planning, cross-functional collaboration, and measuring product outcomes. Enjoys simplifying complex workflows and helping teams make evidence-based decisions.</p>",
+  "template": "oslo",
+  "color": "#3d625b",
+  "locale": "en",
+  "hideSkillLevel": false,
+  "sectionsOrder": [
+    "profile",
+    "custom:sample-skills",
+    "workExperiences",
+    "custom:sample-projects",
+    "languages",
+    "educations",
+    "socialProfiles",
+    "skills"
+  ],
+  "sectionTitles": {},
+  "workExperiences": [
+    {
+      "title": "Senior Product Manager",
+      "employer": "Example Product Studio",
+      "city": "Example City",
+      "dateFrom": "2022-03-01",
+      "dateUntil": null,
+      "isDateUntilPresent": true,
+      "isMonthFromHidden": false,
+      "isMonthUntilHidden": false,
+      "position": 1,
+      "description": "<p>Owns the roadmap for a fictional suite of collaboration tools for small businesses.</p><ul><li><strong>Product discovery:</strong> Established regular customer interviews and usability reviews to identify unmet needs.</li><li><strong>Roadmap planning:</strong> Prioritized opportunities using customer impact, delivery effort, and business objectives.</li><li><strong>Team collaboration:</strong> Partnered with design, engineering, and customer support to deliver incremental improvements.</li><li><strong>Outcome measurement:</strong> Defined adoption and retention metrics and reviewed results after each release.</li></ul>"
+    },
+    {
+      "title": "Product Analyst",
+      "employer": "Example Digital Workshop",
+      "city": "Sample Town",
+      "dateFrom": "2018-08-01",
+      "dateUntil": "2022-02-01",
+      "isDateUntilPresent": false,
+      "isMonthFromHidden": false,
+      "isMonthUntilHidden": false,
+      "position": 2,
+      "description": "<p>Supported product research and reporting for a fictional subscription service. Created dashboards, analyzed customer feedback, and worked with designers to improve onboarding and account management.</p>"
+    }
+  ],
+  "educations": [
+    {
+      "school": "Example Institute of Design",
+      "degree": "Bachelor of Interaction Design",
+      "city": "Sample Town",
+      "dateFrom": "2014-09-01",
+      "dateUntil": "2018-06-01",
+      "isDateUntilPresent": false,
+      "isMonthFromHidden": false,
+      "isMonthUntilHidden": false,
+      "description": null,
+      "position": 1
+    }
+  ],
+  "languages": [
+    { "language": "English", "level": "advanced", "position": 1 },
+    { "language": "Spanish", "level": "upper_intermediate", "position": 2 }
+  ],
+  "customSections": [
+    {
+      "title": "Skills",
+      "type": "advanced",
+      "externalId": "sample-skills",
+      "items": [
+        {
+          "title": "Product Strategy",
+          "description": "<p>Roadmap planning, opportunity assessment, product positioning, and outcome-based prioritization.</p>",
+          "position": 1
+        },
+        {
+          "title": "Customer Research",
+          "description": "<p>Customer interviews, usability studies, journey mapping, and feedback synthesis.</p>",
+          "position": 2
+        },
+        {
+          "title": "Product Analytics",
+          "description": "<p>SQL, funnel analysis, experimentation, and dashboard design.</p>",
+          "position": 3
+        },
+        {
+          "title": "Collaboration",
+          "description": "<ul><li>Workshop facilitation</li><li>Release planning</li><li>Stakeholder communication</li></ul>",
+          "position": 4
+        }
+      ]
+    },
+    {
+      "title": "Selected Projects",
+      "type": "advanced",
+      "externalId": "sample-projects",
+      "items": [
+        {
+          "title": "Workspace Onboarding Redesign",
+          "city": "Example City",
+          "dateFrom": "2025-04-01",
+          "dateUntil": null,
+          "isDateUntilPresent": true,
+          "isMonthFromHidden": false,
+          "isMonthUntilHidden": false,
+          "position": 1,
+          "description": "<p>Redesigned the first-use experience for a fictional collaboration product.</p><ul><li>Mapped setup barriers through interviews and usability sessions.</li><li>Introduced a guided checklist with clear progress indicators.</li><li>Defined activation milestones and a repeatable experiment review process.</li></ul>"
+        },
+        {
+          "title": "Customer Feedback Hub",
+          "city": "Example City",
+          "dateFrom": "2024-01-01",
+          "dateUntil": "2025-03-01",
+          "isDateUntilPresent": false,
+          "position": 2,
+          "description": "<p>Created a shared workspace for organizing product feedback.</p><ul><li>Combined feedback from support conversations and research sessions.</li><li>Developed a consistent tagging model for recurring customer needs.</li><li>Connected opportunity reviews with quarterly planning.</li></ul>"
+        },
+        {
+          "title": "Subscription Management Portal",
+          "city": "Example City",
+          "dateFrom": "2022-09-01",
+          "dateUntil": "2023-12-01",
+          "isDateUntilPresent": false,
+          "position": 3,
+          "description": "<ul><li>Designed self-service flows for plan changes and billing preferences.</li><li>Worked with support teams to clarify account status messages.</li><li>Reviewed accessibility and error recovery across key tasks.</li></ul>"
+        },
+        {
+          "title": "Product Health Dashboard",
+          "city": "Sample Town",
+          "dateFrom": "2021-02-01",
+          "dateUntil": "2022-02-01",
+          "isDateUntilPresent": false,
+          "position": 4,
+          "description": "<ul><li>Defined a shared set of product adoption and retention metrics.</li><li>Built reporting views to support weekly product reviews.</li><li>Documented event definitions to improve consistency across teams.</li></ul>"
+        },
+        {
+          "title": "Help Center Information Architecture",
+          "city": "Sample Town",
+          "dateFrom": "2020-01-01",
+          "dateUntil": "2021-01-01",
+          "isDateUntilPresent": false,
+          "position": 5,
+          "description": "<ul><li>Reorganized documentation around common customer tasks.</li><li>Tested navigation labels with representative users.</li><li>Established an editorial review process for frequently used articles.</li></ul>"
+        },
+        {
+          "title": "Research Repository Pilot",
+          "city": "Sample Town",
+          "dateFrom": "2018-08-01",
+          "dateUntil": "2019-12-01",
+          "isDateUntilPresent": false,
+          "position": 6,
+          "description": "<ul><li>Organized interview notes and research findings in a searchable library.</li><li>Created templates for documenting evidence and open questions.</li><li>Facilitated knowledge-sharing sessions with product and design teams.</li></ul>"
+        }
+      ]
+    }
+  ],
+  "skills": [],
+  "socialProfiles": [],
+  "courses": [],
+  "internships": [],
+  "activities": [],
+  "conferences": [],
+  "volunteerings": [],
+  "hobbies": [],
+  "references": [],
+  "awards": [],
+  "licensesAndCertifications": [],
+  "affiliations": [],
+  "skillCategories": [],
+  "technicalProficiencyCategories": [],
+  "accomplishments": null,
+  "publications": null
+}

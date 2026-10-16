@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f6f7">
+    <meta name="description" content="本地 JSON 简历排版与 HTML 导出工具">
+    <title>简历助手 | SQHOME</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%233d625b'/%3E%3Ctext x='20' y='26' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700' font-size='18'%3ESQ%3C/text%3E%3C/svg%3E">
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="./" aria-label="简历助手首页"><span class="app-name">简历助手</span><span class="trademark">SQHOME</span></a>
+      <div class="header-actions"><span class="local-badge"><span></span>本地模式</span><button id="export" class="button secondary"><i data-lucide="download"></i><span>导出 HTML</span></button><button id="print" class="button primary"><i data-lucide="printer"></i><span>打印 / PDF</span></button></div>
+    </header>
+    <div class="workspace">
+      <aside class="settings" aria-label="简历设置">
+        <div class="settings-heading"><span class="eyebrow">DOCUMENT</span><h1>你的简历</h1></div>
+        <div class="source-file"><div class="file-symbol"><i data-lucide="file-json-2"></i></div><div class="file-info"><strong id="filename">resume.sample.json</strong><span id="file-status">JSON 文档</span></div><span class="file-dot"></span></div>
+        <input type="file" id="file-input" accept=".json,application/json" hidden>
+        <button id="import" class="button import-button"><i data-lucide="upload"></i>导入 JSON</button>
+        <div class="settings-group"><h2>排版样式</h2><div class="layout-options" role="radiogroup" aria-label="排版样式"><label class="layout-choice"><input type="radio" name="layout" value="executive" checked><span class="layout-art"><i data-lucide="panels-top-left"></i></span><span>商务双栏</span><i class="choice-check" data-lucide="circle-check"></i></label><label class="layout-choice"><input type="radio" name="layout" value="classic"><span class="layout-art"><i data-lucide="rows-3"></i></span><span>经典单栏</span><i class="choice-check" data-lucide="circle-check"></i></label></div></div>
+        <div class="settings-group color-group"><h2>主题颜色</h2><div class="swatches" role="radiogroup" aria-label="主题颜色"><label style="--swatch:#3d625b" title="松柏绿"><input type="radio" name="color" value="#3d625b" aria-label="松柏绿" checked><span></span></label><label style="--swatch:#30353b" title="石墨黑"><input type="radio" name="color" value="#30353b" aria-label="石墨黑"><span></span></label><label style="--swatch:#5a6c8c" title="商务蓝"><input type="radio" name="color" value="#5a6c8c" aria-label="商务蓝"><span></span></label><label style="--swatch:#82525d" title="酒红色"><input type="radio" name="color" value="#82525d" aria-label="酒红色"><span></span></label><label style="--swatch:#79684b" title="古铜色"><input type="radio" name="color" value="#79684b" aria-label="古铜色"><span></span></label></div></div>
+        <div class="settings-group"><div class="group-row"><h2>个人照片</h2><label class="switch"><input type="checkbox" id="photo" checked aria-label="显示个人照片"><span></span></label></div></div>
+        <div class="settings-group"><div class="group-row"><h2>简历章节</h2><span id="section-count" class="muted"></span></div><div id="section-controls" class="section-controls"></div></div>
+        <div class="sidebar-bottom"><button id="reset" class="reset-button"><i data-lucide="rotate-ccw"></i>恢复默认设置</button><span><i data-lucide="shield-check"></i>文件仅在本地处理</span></div>
+      </aside>
+      <main class="preview-area">
+        <div class="preview-toolbar"><div><span class="eyebrow">LIVE PREVIEW</span><h2 id="document-title">Alex Morgan <span>/ Resume</span></h2></div><div class="zoom-controls"><button id="zoom-out" class="icon-button" aria-label="缩小" title="缩小"><i data-lucide="minus"></i></button><output id="zoom-label" aria-label="缩放比例">100%</output><button id="zoom-in" class="icon-button" aria-label="放大" title="放大"><i data-lucide="plus"></i></button><span class="zoom-divider"></span><button id="zoom-fit" class="icon-button" aria-label="重置缩放" title="重置缩放"><i data-lucide="scan"></i></button></div></div>
+        <div class="paper-stage"><article id="resume" class="resume-paper" lang="en" aria-label="简历预览"></article></div>
+        <footer class="preview-footer"><span><span class="status-dot"></span>预览已更新</span><span id="preview-meta">商务双栏 · 连续页面</span></footer>
+      </main>
+    </div>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
