@@ -19,6 +19,7 @@
         <div class="source-file"><div class="file-symbol"><i data-lucide="file-json-2"></i></div><div class="file-info"><strong id="filename">resume.sample.json</strong><span id="file-status">JSON 文档</span></div><span class="file-dot"></span></div>
         <input type="file" id="file-input" accept=".json,application/json" hidden>
         <button id="import" class="button import-button"><i data-lucide="upload"></i>导入 JSON</button>
+        <div class="document-actions"><button id="edit" class="button primary"><i data-lucide="pencil"></i>编辑内容</button><button id="download-json" class="button" title="下载 JSON" aria-label="下载 JSON"><i data-lucide="file-json-2"></i></button></div>
         <div class="settings-group"><h2>排版样式</h2><div class="layout-options" role="radiogroup" aria-label="排版样式"><label class="layout-choice"><input type="radio" name="layout" value="executive" checked><span class="layout-art"><i data-lucide="panels-top-left"></i></span><span>商务双栏</span><i class="choice-check" data-lucide="circle-check"></i></label><label class="layout-choice"><input type="radio" name="layout" value="classic"><span class="layout-art"><i data-lucide="rows-3"></i></span><span>经典单栏</span><i class="choice-check" data-lucide="circle-check"></i></label></div></div>
         <div class="settings-group color-group"><h2>主题颜色</h2><div class="swatches" role="radiogroup" aria-label="主题颜色"><label style="--swatch:#3d625b" title="松柏绿"><input type="radio" name="color" value="#3d625b" aria-label="松柏绿" checked><span></span></label><label style="--swatch:#30353b" title="石墨黑"><input type="radio" name="color" value="#30353b" aria-label="石墨黑"><span></span></label><label style="--swatch:#5a6c8c" title="商务蓝"><input type="radio" name="color" value="#5a6c8c" aria-label="商务蓝"><span></span></label><label style="--swatch:#82525d" title="酒红色"><input type="radio" name="color" value="#82525d" aria-label="酒红色"><span></span></label><label style="--swatch:#79684b" title="古铜色"><input type="radio" name="color" value="#79684b" aria-label="古铜色"><span></span></label></div></div>
         <div class="settings-group"><div class="group-row"><h2>个人照片</h2><label class="switch"><input type="checkbox" id="photo" checked aria-label="显示个人照片"><span></span></label></div></div>
@@ -32,6 +33,7 @@
       </main>
     </div>
     <div id="toast" role="status" aria-live="polite" hidden></div>
+    <dialog id="resume-editor" class="resume-editor" aria-label="编辑简历"></dialog>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
