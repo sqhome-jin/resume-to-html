@@ -38,6 +38,21 @@ test('public sample uses fictional contact details and excludes private metadata
   inspect(data);
 });
 
+test('resume embeds accessible icons and semantic accents without requiring runtime scripts', () => {
+  const document = new JSDOM(render()).window.document;
+  assert.equal(document.querySelectorAll('.section-symbol svg').length, 6);
+  assert.equal(document.querySelectorAll('[data-kind="projects"] .project-number').length, 6);
+  assert.equal(document.querySelector('[data-section="workExperiences"]').dataset.tone, 'blue');
+  assert.equal(document.querySelector('.resume-monogram').textContent, 'AM');
+  assert.equal(document.querySelectorAll('.resume-contact svg').length, 2);
+  for (const icon of document.querySelectorAll('svg')) {
+    assert.equal(icon.getAttribute('aria-hidden'), 'true');
+    assert.ok(icon.querySelector('path, circle, rect, polyline, line'));
+    assert.equal(icon.getAttribute('viewBox'), '0 0 24 24');
+  }
+  assert.equal(document.querySelectorAll('script, [data-lucide]').length, 0);
+});
+
 test('imported HTML, names and URLs cannot execute scripts', () => {
   const malicious = { firstName: '<img src=x onerror=alert(1)>', profile: '<script>alert(1)</script><img src=x onerror=alert(1)><a href="javascript:alert(1)">Link</a><strong>Safe</strong>', avatar: { mediumUrl: 'javascript:alert(1)' } };
   const document = new JSDOM(render(malicious)).window.document;
