@@ -43,7 +43,8 @@
 .resume-section[data-kind="experience"]>.resume-entry:last-child{border-left-color:transparent;padding-bottom:0}
 .resume-section[data-kind="projects"]>.resume-entry{padding:0 0 21px 29px;border-bottom:1px solid #eceeea;margin-bottom:21px}
 .resume-section[data-kind="projects"]>.resume-entry:last-child{padding-bottom:0;border-bottom:0;margin-bottom:0}
-.project-number{position:absolute;left:0;top:2px;font-size:10px;font-weight:700;color:var(--section-color);font-variant-numeric:tabular-nums}
+.resume-section[data-kind="projects"] .entry-heading h3{position:relative}
+.project-number{position:absolute;left:-29px;top:50%;transform:translateY(-50%);font-size:10px;line-height:1;font-weight:700;color:var(--section-color);font-variant-numeric:tabular-nums}
 .rich-text{font-size:11px;color:#59655f;line-height:1.85}
 [data-section="profile"] .rich-text{font-size:12px;line-height:1.85}
 .rich-text p{margin:9px 0}

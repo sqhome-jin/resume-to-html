@@ -42,6 +42,7 @@ test('resume embeds accessible icons and semantic accents without requiring runt
   const document = new JSDOM(render()).window.document;
   assert.equal(document.querySelectorAll('.section-symbol svg').length, 6);
   assert.equal(document.querySelectorAll('[data-kind="projects"] .project-number').length, 6);
+  assert.equal(document.querySelectorAll('[data-kind="projects"] h3 > .project-number').length, 6);
   assert.equal(document.querySelector('[data-section="workExperiences"]').dataset.tone, 'blue');
   assert.equal(document.querySelector('.resume-monogram').textContent, 'AM');
   assert.equal(document.querySelectorAll('.resume-contact svg').length, 2);
