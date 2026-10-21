@@ -5,6 +5,7 @@ import 'quill/dist/quill.snow.css';
 import sample from '../examples/resume.sample.json';
 import { escapeHTML, getSections, renderResume, validateResume } from './resume.js';
 import { createResumeEditor } from './editor.js';
+import { supportedLocales, translate } from './i18n.js';
 import './style.css';
 import './resume.css';
 import './editor.css';
@@ -19,6 +20,37 @@ let zoom = 100;
 let toastTimer;
 let modified = false;
 let editorDirty = false;
+const savedLocale = (() => {
+  try { return localStorage.getItem('resume-to-html-locale'); }
+  catch { return null; }
+})();
+let locale = supportedLocales.some(({ code }) => code === savedLocale) ? savedLocale : 'zh-CN';
+
+function saveLocale(value) {
+  try { localStorage.setItem('resume-to-html-locale', value); }
+  catch { /* Language selection still works when storage is unavailable. */ }
+}
+
+function applyLocale() {
+  document.documentElement.lang = locale;
+  document.title = translate(locale, 'app_title');
+  element('language-select').value = locale;
+  document.querySelectorAll('[data-i18n]').forEach((node) => {
+    node.textContent = translate(locale, node.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach((node) => {
+    node.title = translate(locale, node.dataset.i18nTitle);
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+    node.setAttribute('aria-label', translate(locale, node.dataset.i18nAriaLabel));
+  });
+}
+
+function setFileStatus(key) {
+  const status = element('file-status');
+  status.dataset.i18n = key;
+  status.textContent = translate(locale, key);
+}
 
 function notify(message) {
   clearTimeout(toastTimer);
@@ -29,21 +61,22 @@ function notify(message) {
 
 function render(resume = data) {
   const paper = element('resume');
-  paper.innerHTML = renderResume(resume, options, DOMPurify.sanitize);
+  paper.innerHTML = renderResume(resume, { ...options, locale }, DOMPurify.sanitize);
   paper.dataset.layout = options.layout;
   paper.dataset.theme = options.color.slice(1);
+  paper.lang = locale;
   paper.style.setProperty('--accent', options.color);
   document.querySelector('.preview-area').style.setProperty('--canvas-accent', options.color);
   const name = [resume.firstName, resume.lastName].filter(Boolean).join(' ') || resume.name;
-  element('document-title').innerHTML = `${escapeHTML(name)} <span>/ Resume</span>`;
-  element('preview-meta').textContent = `${options.layout === 'executive' ? '商务双栏' : '经典单栏'} · 连续页面`;
-  const sections = getSections(resume);
+  element('document-title').innerHTML = `${escapeHTML(name)} <span>/ ${translate(locale, 'resume')}</span>`;
+  element('preview-meta').textContent = `${translate(locale, options.layout === 'executive' ? 'layout_executive' : 'layout_classic')} · ${translate(locale, 'continuous_pages')}`;
+  const sections = getSections(resume, locale);
   element('section-count').textContent = `${sections.filter((section) => !options.hidden.includes(section.id)).length} / ${sections.length}`;
   paper.querySelector('.resume-avatar')?.addEventListener('error', (event) => { event.target.hidden = true; });
 }
 
 function renderControls() {
-  element('section-controls').innerHTML = getSections(data).map((section) => `<label class="section-option"><span>${escapeHTML(section.title)}</span><input type="checkbox" value="${escapeHTML(section.id)}" ${options.hidden.includes(section.id) ? '' : 'checked'}><span class="section-check"><i data-lucide="check"></i></span></label>`).join('');
+  element('section-controls').innerHTML = getSections(data, locale).map((section) => `<label class="section-option"><span>${escapeHTML(section.title)}</span><input type="checkbox" value="${escapeHTML(section.id)}" ${options.hidden.includes(section.id) ? '' : 'checked'}><span class="section-check"><i data-lucide="check"></i></span></label>`).join('');
   document.querySelector(`input[name="layout"][value="${options.layout}"]`).checked = true;
   document.querySelector(`input[name="color"][value="${options.color}"]`).checked = true;
   element('photo').checked = options.photo;
@@ -55,20 +88,20 @@ element('file-input').addEventListener('change', async (event) => {
   const file = event.target.files[0];
   if (!file) return;
   try {
-    if (file.size > 5 * 1024 * 1024) throw new Error('请选择小于 5 MB 的 JSON 文件。');
-    const imported = validateResume(JSON.parse(await file.text()));
-    renderResume(imported, options, DOMPurify.sanitize);
-    if (modified && !window.confirm('当前修改尚未下载为 JSON。仍要导入其他简历吗？')) return;
+    if (file.size > 5 * 1024 * 1024) throw new Error(translate(locale, 'error_file_too_large'));
+    const imported = validateResume(JSON.parse(await file.text()), locale);
+    renderResume(imported, { ...options, locale }, DOMPurify.sanitize);
+    if (modified && !window.confirm(translate(locale, 'confirm_import_unsaved'))) return;
     data = imported;
     modified = false;
-    element('file-status').textContent = 'JSON 文档';
+    setFileStatus('json_document');
     options.hidden = [];
     element('filename').textContent = file.name;
     renderControls();
     render();
-    notify('简历已导入');
+    notify(translate(locale, 'status_imported'));
   } catch (error) {
-    notify(error instanceof SyntaxError ? 'JSON 格式错误，请检查文件。' : error.message);
+    notify(error instanceof SyntaxError ? translate(locale, 'error_invalid_json') : error.message);
   } finally { event.target.value = ''; }
 });
 
@@ -82,7 +115,7 @@ element('section-controls').addEventListener('change', (event) => {
   options.hidden = input.checked ? options.hidden.filter((id) => id !== input.value) : [...options.hidden, input.value];
   render();
 });
-element('reset').addEventListener('click', () => { options = defaults(); setZoom(100); renderControls(); render(); notify('已恢复默认排版'); });
+element('reset').addEventListener('click', () => { options = defaults(); setZoom(100); renderControls(); render(); notify(translate(locale, 'status_reset')); });
 
 function setZoom(value) {
   zoom = Math.max(60, Math.min(140, value));
@@ -101,12 +134,12 @@ element('print').addEventListener('click', () => {
   const filename = [name, data.position, 'Resume', dateLabel].filter((part) => typeof part === 'string' && part.trim()).join(' - ').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '-');
   const printWindow = window.open('about:blank', '_blank');
   if (!printWindow) {
-    notify('请允许弹出窗口以导出 PDF。');
+    notify(translate(locale, 'popup_blocked'));
     return;
   }
   printWindow.opener = null;
   printWindow.document.open();
-  printWindow.document.write(`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(filename)}</title><style>${resumeCSS}\nbody{margin:0;background:#fff;padding:24px}.resume-paper{margin:auto}@media print{body{padding:0}}</style></head><body>${element('resume').outerHTML}</body></html>`);
+  printWindow.document.write(`<!doctype html><html lang="${locale}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(filename)}</title><style>${resumeCSS}\nbody{margin:0;background:#fff;padding:24px}.resume-paper{margin:auto}@media print{body{padding:0}}</style></head><body>${element('resume').outerHTML}</body></html>`);
   printWindow.document.close();
   printWindow.addEventListener('afterprint', () => printWindow.close(), { once: true });
   printWindow.focus();
@@ -123,18 +156,18 @@ function download(content, filename, type) {
 }
 
 const editor = createResumeEditor({
-  dialog: element('resume-editor'), Quill, sanitize: DOMPurify.sanitize,
+  dialog: element('resume-editor'), Quill, sanitize: DOMPurify.sanitize, getLocale: () => locale,
   refreshIcons: () => createIcons({ icons }),
   onPreview: (draft) => { editorDirty = true; render(draft); },
   onSave: (draft) => {
     data = draft;
     modified = true;
     editorDirty = false;
-    options.hidden = options.hidden.filter((id) => getSections(data).some((section) => section.id === id));
-    element('file-status').textContent = '已修改 · 未下载';
+    options.hidden = options.hidden.filter((id) => getSections(data, locale).some((section) => section.id === id));
+    setFileStatus('status_modified');
     renderControls();
     render();
-    notify('修改已应用');
+    notify(translate(locale, 'status_applied'));
   },
   onCancel: () => { editorDirty = false; render(); }
 });
@@ -143,8 +176,16 @@ element('download-json').addEventListener('click', () => {
   const filename = element('filename').textContent.replace(/\.json$/i, '') + '.edited.json';
   download(JSON.stringify(data, null, 2) + '\n', filename, 'application/json;charset=utf-8');
   modified = false;
-  element('file-status').textContent = 'JSON 已下载';
-  notify('修改后的 JSON 已导出');
+  setFileStatus('status_json_downloaded');
+  notify(translate(locale, 'status_json_exported'));
+});
+element('language-select').addEventListener('change', (event) => {
+  locale = event.target.value;
+  saveLocale(locale);
+  applyLocale();
+  renderControls();
+  render();
+  editor.setLocale(locale);
 });
 window.addEventListener('beforeunload', (event) => {
   if (!modified && !editorDirty) return;
@@ -154,10 +195,11 @@ window.addEventListener('beforeunload', (event) => {
 
 element('export').addEventListener('click', () => {
   const name = [data.firstName, data.lastName].filter(Boolean).join(' ') || data.name;
-  const html = `<!doctype html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(name)} - Resume</title><style>${resumeCSS}\nbody{margin:0;background:#eceeed;padding:32px 16px}.resume-paper{margin:auto}@media print{body{padding:0;background:white}}</style></head><body><article class="resume-paper" data-layout="${options.layout}" data-theme="${options.color.slice(1)}" style="--accent:${options.color}">${renderResume(data, options, DOMPurify.sanitize)}</article></body></html>`;
+  const html = `<!doctype html>\n<html lang="${locale}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(name)} - ${translate(locale, 'resume')}</title><style>${resumeCSS}\nbody{margin:0;background:#eceeed;padding:32px 16px}.resume-paper{margin:auto}@media print{body{padding:0;background:white}}</style></head><body><article class="resume-paper" data-layout="${options.layout}" data-theme="${options.color.slice(1)}" lang="${locale}" style="--accent:${options.color}">${renderResume(data, { ...options, locale }, DOMPurify.sanitize)}</article></body></html>`;
   download(html, `${String(name).replace(/[^\p{L}\p{N}_-]/gu, '-')}-resume.html`, 'text/html;charset=utf-8');
-  notify('HTML 已导出');
+  notify(translate(locale, 'status_html_exported'));
 });
 
+applyLocale();
 renderControls();
 render();

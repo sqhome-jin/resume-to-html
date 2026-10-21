@@ -5,6 +5,7 @@ import { JSDOM } from 'jsdom';
 import createDOMPurify from 'dompurify';
 import { getSections, renderResume, validateResume, dateRange, safeURL } from '../src/resume.js';
 import { getEditorSections, getEditorTarget, addEditorEntry, addEditorSection, createResumeEditor } from '../src/editor.js';
+import { supportedLocales, translate } from '../src/i18n.js';
 
 const data = JSON.parse(readFileSync(new URL('../examples/resume.sample.json', import.meta.url), 'utf8'));
 const window = new JSDOM('').window;
@@ -71,6 +72,46 @@ test('employment, education, languages and projects use distinct section tones',
   ];
   assert.deepEqual(tones, ['blue', 'coral', 'violet', 'amber']);
   assert.equal(new Set(tones).size, tones.length);
+});
+
+test('supported locales translate built-in section names and date ranges', () => {
+  assert.deepEqual(supportedLocales.map(({ code }) => code), ['zh-CN', 'en', 'ja', 'ko', 'es', 'fr']);
+  assert.equal(translate('ko', 'language'), '언어');
+  assert.equal(getSections(data, 'ja').find((section) => section.id === 'workExperiences').title, '職務経歴');
+  assert.equal(getSections(data, 'fr').find((section) => section.id === 'languages').title, 'Langues');
+  assert.match(dateRange({ dateFrom: '2022-03', isDateUntilPresent: true }, 'ja'), /現在/);
+  const document = new JSDOM(render(data, { locale: 'es' })).window.document;
+  assert.equal(document.querySelector('[data-section="workExperiences"] h2').textContent.includes('Experiencia laboral'), true);
+});
+
+test('recognized custom Skills and Selected Projects titles are localized', () => {
+  const resume = {
+    name: 'Taylor Morgan',
+    customSections: [
+      { id: 'skills', title: 'Skills', items: [{ skill: 'Research' }] },
+      { id: 'projects', title: 'Selected Projects', items: [{ title: 'Sample project' }] },
+      { id: 'notes', title: 'My notes', items: [{ title: 'Keep original' }] }
+    ]
+  };
+  const titles = getSections(resume, 'ja').map((section) => section.title);
+  assert.deepEqual(titles, ['スキル', '選択したプロジェクト', 'My notes']);
+  const document = new JSDOM(render(resume, { locale: 'fr' })).window.document;
+  assert.equal(document.querySelector('[data-section="custom:projects"]').dataset.kind, 'projects');
+  assert.ok(document.querySelector('.resume-aside [data-section="custom:skills"]'));
+});
+
+test('an open editor refreshes its labels when the locale changes', () => {
+  const browser = new JSDOM('<dialog></dialog>').window;
+  const dialog = browser.document.querySelector('dialog');
+  dialog.showModal = () => dialog.setAttribute('open', '');
+  let locale = 'en';
+  const editor = createResumeEditor({ dialog, Quill: class {}, sanitize: purifier.sanitize, refreshIcons: () => {}, getLocale: () => locale, onPreview: () => {}, onSave: () => {}, onCancel: () => {} });
+  editor.open(data);
+  assert.equal(dialog.querySelector('.editor-header h2').textContent, 'Edit resume');
+  locale = 'ja';
+  editor.setLocale();
+  assert.equal(dialog.querySelector('.editor-header h2').textContent, '履歴書を編集');
+  assert.equal(dialog.querySelector('#editor-section option').textContent, '個人情報');
 });
 
 test('imported HTML, names and URLs cannot execute scripts', () => {

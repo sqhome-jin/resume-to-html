@@ -14,9 +14,12 @@ svg{width:17px;height:17px;stroke-width:1.6;flex-shrink:0}
 .brand{display:flex;flex-direction:column;align-items:flex-start;gap:7px;color:#252c29;text-decoration:none;line-height:1;white-space:nowrap;flex-shrink:0}
 .app-name{font-size:22px;font-weight:700}
 .trademark{font-family:'Manrope','Helvetica Neue',sans-serif;font-size:10px;font-weight:600;color:#85928a}
+.language-picker{display:flex;align-items:center;flex-shrink:0}
+.language-picker select{width:148px;max-width:100%;border:1px solid #dbe3dd;border-radius:4px;padding:8px 9px;background:#f7f9f7;color:#354b3d;font:inherit;font-size:10px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
 .local-badge{display:flex;align-items:center;gap:7px;font-size:11px;color:#7b8780;margin-right:14px}
-.local-badge>span,.status-dot{width:6px;height:6px;background:#6b977c;border-radius:50%;display:inline-block}
+.local-badge>span:first-child,.status-dot{width:6px;height:6px;background:#6b977c;border-radius:50%;display:inline-block}
 .button{border:1px solid var(--line);border-radius:5px;min-height:37px;display:inline-flex;justify-content:center;align-items:center;gap:8px;font-size:11px;font-weight:600;padding:0 15px;background:white;color:#47534b;white-space:nowrap}
 .button:hover{background:#f0f4f1;border-color:#c6d3cb}
 .button.primary{background:#2d4036;color:#fff;border-color:#2d4036}
@@ -93,5 +96,6 @@ svg{width:17px;height:17px;stroke-width:1.6;flex-shrink:0}
 @media(max-width:1050px){.workspace{grid-template-columns:225px minmax(0,1fr)}.settings{padding:25px 18px}.preview-area{padding:25px 22px 18px}.local-badge{display:none}.file-info strong{max-width:120px}.swatches{gap:8px}}
 @media(max-width:760px){.app-header{height:66px;padding:0 18px;gap:14px}.brand{font-size:29px}.workspace-label,.header-divider{display:none}.header-actions{gap:7px}.button{font-size:10px;padding:0 10px;gap:6px;min-height:34px}.button svg{width:14px;height:14px}.workspace{display:flex;flex-direction:column;min-height:calc(100vh - 66px)}.settings{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:15px 22px;border-right:0;border-bottom:1px solid var(--line)}.settings-heading{display:none}.source-file{margin:0;grid-column:1}.file-info strong{max-width:180px}.import-button{align-self:center;justify-self:end;width:auto;grid-column:2}.settings-group{margin:0;padding:15px 0 0}.layout-options{display:flex;gap:12px}.layout-choice{flex-direction:row;font-size:10px;gap:6px}.layout-art{width:28px;height:29px;border-radius:3px}.layout-art svg{width:19px;height:20px}.choice-check{display:none}.color-group{padding-top:15px}.swatches{gap:7px}.swatches label{width:24px;height:24px}.settings-group:has(#section-controls){grid-column:1/-1}.section-controls{display:grid;grid-template-columns:1fr 1fr;gap:2px 22px;margin-top:8px}.section-option{font-size:10px;min-height:28px}.sidebar-bottom{margin:0;padding-top:0;align-self:center;gap:0;grid-column:2;grid-row:3}.sidebar-bottom>span{display:none}.reset-button{font-size:10px;padding:0}.preview-area{padding:23px 14px 18px}.preview-toolbar{margin-bottom:18px}.preview-toolbar h2{font-size:13px}.preview-toolbar .eyebrow{font-size:8px}.preview-footer{font-size:8px}.file-symbol{height:32px;width:28px}.file-info strong{font-size:9px}}
 @media(max-width:760px){.brand{gap:6px}.app-name{font-size:18px}.trademark{font-size:9px}}
+@media(max-width:760px){.language-picker select{width:56px;padding:7px 3px;font-size:12px}.header-actions .button{width:34px;padding:0;gap:0}.header-actions .button span{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{body{background:#fff}.app-header,.settings,.preview-toolbar,.preview-footer,#toast{display:none!important}.workspace{display:block;min-height:0}.preview-area{padding:0;background:none}.paper-stage{display:block;overflow:visible;padding:0;border:0;background:none}.resume-paper{animation:none;max-width:none}}
