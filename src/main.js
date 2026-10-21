@@ -31,7 +31,9 @@ function render(resume = data) {
   const paper = element('resume');
   paper.innerHTML = renderResume(resume, options, DOMPurify.sanitize);
   paper.dataset.layout = options.layout;
+  paper.dataset.theme = options.color.slice(1);
   paper.style.setProperty('--accent', options.color);
+  document.querySelector('.preview-area').style.setProperty('--canvas-accent', options.color);
   const name = [resume.firstName, resume.lastName].filter(Boolean).join(' ') || resume.name;
   element('document-title').innerHTML = `${escapeHTML(name)} <span>/ Resume</span>`;
   element('preview-meta').textContent = `${options.layout === 'executive' ? '商务双栏' : '经典单栏'} · 连续页面`;
@@ -92,7 +94,24 @@ function setZoom(value) {
 element('zoom-out').addEventListener('click', () => setZoom(zoom - 10));
 element('zoom-in').addEventListener('click', () => setZoom(zoom + 10));
 element('zoom-fit').addEventListener('click', () => setZoom(100));
-element('print').addEventListener('click', () => window.print());
+element('print').addEventListener('click', () => {
+  const name = [data.firstName, data.lastName].filter(Boolean).join(' ') || data.name;
+  const date = new Date();
+  const dateLabel = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+  const filename = [name, data.position, 'Resume', dateLabel].filter((part) => typeof part === 'string' && part.trim()).join(' - ').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '-');
+  const printWindow = window.open('about:blank', '_blank');
+  if (!printWindow) {
+    notify('请允许弹出窗口以导出 PDF。');
+    return;
+  }
+  printWindow.opener = null;
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(filename)}</title><style>${resumeCSS}\nbody{margin:0;background:#fff;padding:24px}.resume-paper{margin:auto}@media print{body{padding:0}}</style></head><body>${element('resume').outerHTML}</body></html>`);
+  printWindow.document.close();
+  printWindow.addEventListener('afterprint', () => printWindow.close(), { once: true });
+  printWindow.focus();
+  printWindow.print();
+});
 
 function download(content, filename, type) {
   const url = URL.createObjectURL(new Blob([content], { type }));
@@ -135,7 +154,7 @@ window.addEventListener('beforeunload', (event) => {
 
 element('export').addEventListener('click', () => {
   const name = [data.firstName, data.lastName].filter(Boolean).join(' ') || data.name;
-  const html = `<!doctype html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(name)} - Resume</title><style>${resumeCSS}\nbody{margin:0;background:#eceeed;padding:32px 16px}.resume-paper{margin:auto}@media print{body{padding:0;background:white}}</style></head><body><article class="resume-paper" data-layout="${options.layout}" style="--accent:${options.color}">${renderResume(data, options, DOMPurify.sanitize)}</article></body></html>`;
+  const html = `<!doctype html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHTML(name)} - Resume</title><style>${resumeCSS}\nbody{margin:0;background:#eceeed;padding:32px 16px}.resume-paper{margin:auto}@media print{body{padding:0;background:white}}</style></head><body><article class="resume-paper" data-layout="${options.layout}" data-theme="${options.color.slice(1)}" style="--accent:${options.color}">${renderResume(data, options, DOMPurify.sanitize)}</article></body></html>`;
   download(html, `${String(name).replace(/[^\p{L}\p{N}_-]/gu, '-')}-resume.html`, 'text/html;charset=utf-8');
   notify('HTML 已导出');
 });

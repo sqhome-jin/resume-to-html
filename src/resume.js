@@ -7,18 +7,23 @@ const iconHTML = ([, , nodes]) => `<svg class="resume-icon" xmlns="http://www.w3
 function sectionAppearance(section) {
   const appearances = {
     profile: [UserRound, 'teal', 'profile'], workExperiences: [BriefcaseBusiness, 'blue', 'experience'],
-    educations: [GraduationCap, 'blue', 'education'], languages: [Languages, 'amber', 'languages'],
-    skills: [Compass, 'rose', 'skills'], socialProfiles: [Link, 'teal', 'links'],
-    licensesAndCertifications: [Award, 'amber', 'certifications'], awards: [Award, 'amber', 'awards'],
-    publications: [BookOpen, 'blue', 'publications'], volunteerings: [HeartHandshake, 'rose', 'volunteering']
+    educations: [GraduationCap, 'coral', 'education'], languages: [Languages, 'violet', 'languages'],
+    skills: [Compass, 'rose', 'skills'], socialProfiles: [Link, 'cyan', 'links'],
+    accomplishments: [Award, 'amber', 'accomplishments'], courses: [BookOpen, 'slate', 'courses'],
+    internships: [BriefcaseBusiness, 'green', 'internships'], activities: [Compass, 'orange', 'activities'],
+    references: [FileText, 'olive', 'references'], licensesAndCertifications: [Award, 'amber', 'certifications'],
+    awards: [Award, 'orange', 'awards'], publications: [BookOpen, 'indigo', 'publications'],
+    volunteerings: [HeartHandshake, 'green', 'volunteering'], conferences: [BookOpen, 'slate', 'conferences'],
+    affiliations: [HeartHandshake, 'cyan', 'affiliations'], hobbies: [Compass, 'rose', 'hobbies'],
+    technicalProficiencyCategories: [Compass, 'blue', 'technical-proficiency']
   };
   if (appearances[section.id]) return appearances[section.id];
   if (section.id.startsWith('custom:')) {
     if (section.sidebar || /skill|expertise|技能|专长/i.test(section.title)) return [Compass, 'rose', 'skills'];
     if (/project|项目/i.test(section.title)) return [FolderKanban, 'amber', 'projects'];
-    if (/certif|award|证书|认证|奖/i.test(section.title)) return [Award, 'teal', 'certifications'];
+    if (/certif|award|证书|认证|奖/i.test(section.title)) return [Award, 'orange', 'certifications'];
   }
-  return [FileText, 'teal', 'additional'];
+  return [FileText, 'olive', 'additional'];
 }
 
 export function validateResume(data) {

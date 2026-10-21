@@ -54,6 +54,25 @@ test('resume embeds accessible icons and semantic accents without requiring runt
   assert.equal(document.querySelectorAll('script, [data-lucide]').length, 0);
 });
 
+test('employment, education, languages and projects use distinct section tones', () => {
+  const resume = {
+    name: 'Taylor Morgan',
+    workExperiences: [{ title: 'Product Manager' }],
+    educations: [{ school: 'Example University' }],
+    languages: [{ language: 'English' }],
+    customSections: [{ id: 'projects', title: 'Projects', items: [{ title: 'Sample project' }] }]
+  };
+  const document = new JSDOM(render(resume)).window.document;
+  const tones = [
+    document.querySelector('[data-section="workExperiences"]').dataset.tone,
+    document.querySelector('[data-section="educations"]').dataset.tone,
+    document.querySelector('[data-section="languages"]').dataset.tone,
+    document.querySelector('[data-kind="projects"]').dataset.tone
+  ];
+  assert.deepEqual(tones, ['blue', 'coral', 'violet', 'amber']);
+  assert.equal(new Set(tones).size, tones.length);
+});
+
 test('imported HTML, names and URLs cannot execute scripts', () => {
   const malicious = { firstName: '<img src=x onerror=alert(1)>', profile: '<script>alert(1)</script><img src=x onerror=alert(1)><a href="javascript:alert(1)">Link</a><strong>Safe</strong>', avatar: { mediumUrl: 'javascript:alert(1)' } };
   const document = new JSDOM(render(malicious)).window.document;
