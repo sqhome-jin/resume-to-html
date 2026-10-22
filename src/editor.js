@@ -219,7 +219,12 @@ export function createResumeEditor({ dialog, Quill, sanitize, refreshIcons, onPr
   dialog.addEventListener('cancel', (event) => { event.preventDefault(); cancel(); });
   dialog.addEventListener('close', () => { document.body.classList.remove('editing'); opener?.focus(); });
   return {
-    setLocale() {
+    setLocale(_locale, replacementDraft) {
+      if (replacementDraft) {
+        draft = structuredClone(replacementDraft);
+        current = 'personal';
+        error.hidden = true;
+      }
       dialog.setAttribute('aria-label', t('editor_title'));
       dialog.querySelector('.editor-header .eyebrow').textContent = t('editor_eyebrow');
       dialog.querySelector('.editor-header h2').textContent = t('editor_title');

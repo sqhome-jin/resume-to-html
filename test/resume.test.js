@@ -6,6 +6,7 @@ import createDOMPurify from 'dompurify';
 import { getSections, renderResume, validateResume, dateRange, safeURL } from '../src/resume.js';
 import { getEditorSections, getEditorTarget, addEditorEntry, addEditorSection, createResumeEditor } from '../src/editor.js';
 import { supportedLocales, translate } from '../src/i18n.js';
+import { getSampleResume } from '../src/sample-resumes.js';
 
 const data = JSON.parse(readFileSync(new URL('../examples/resume.sample.json', import.meta.url), 'utf8'));
 const window = new JSDOM('').window;
@@ -82,6 +83,20 @@ test('supported locales translate built-in section names and date ranges', () =>
   assert.match(dateRange({ dateFrom: '2022-03', isDateUntilPresent: true }, 'ja'), /現在/);
   const document = new JSDOM(render(data, { locale: 'es' })).window.document;
   assert.equal(document.querySelector('[data-section="workExperiences"] h2').textContent.includes('Experiencia laboral'), true);
+});
+
+test('each supported locale has its own localized built-in sample resume', () => {
+  const samples = supportedLocales.map(({ code }) => getSampleResume(code));
+  assert.deepEqual(samples.map((resume) => resume.locale), supportedLocales.map(({ code }) => code));
+  assert.equal(samples[0].position, '高级产品经理');
+  assert.equal(samples[0].workExperiences[0].title, '高级产品经理');
+  assert.equal(samples[1].position, data.position);
+  assert.equal(samples[2].profile.includes('ユーザー調査'), true);
+  assert.equal(samples[3].languages[0].language, '한국어');
+  assert.equal(samples[4].customSections[1].items[0].title, 'Rediseño de incorporación al espacio de trabajo');
+  assert.equal(samples[5].customSections[0].items[0].title, 'Stratégie produit');
+  assert.notEqual(samples[0], samples[1]);
+  assert.equal(data.position, 'Senior Product Manager');
 });
 
 test('recognized custom Skills and Selected Projects titles are localized', () => {

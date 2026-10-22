@@ -31,7 +31,7 @@
 .editor-entry-body{padding:3px 0 17px}
 .editor-entry-body>.editor-field{margin-top:19px}
 .editor-present{display:flex;gap:7px;align-items:center;font-size:11px;color:#77857a}
-.editor-present input{accent-color:#3d625b;margin:0}
+.editor-present input{accent-color:var(--green);margin:0}
 .editor-delete{display:flex;align-items:center;gap:5px;color:#a36b6b;background:none;border:0;padding:5px 0;margin-top:15px;font:inherit;font-size:10px}
 .editor-delete svg{width:12px;height:12px}
 .editor-delete:hover,.danger-button:hover{color:#a64242}
